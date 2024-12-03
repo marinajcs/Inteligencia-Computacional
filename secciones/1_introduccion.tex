@@ -1,0 +1,20 @@
+\section{Introducción}
+Este se enfoca en
+
+\subsection{Herramientas y entorno}
+
+Se ha optado por utilizar bibliotecas que implementan dichos algoritmos y están disponibles públicamente.
+
+Se ha utilizado Google Colab.
+
+import numpy as np
+import matplotlib.pyplot as plt
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.utils import to\_categorical
+from sklearn.model\_selection import train\_test\_split
+
+
+Antes de nada, se han definido dos funciones: \textit{cargar\_imagenes()} y \textit{cargar\_etiquetas()}.
+
+La primera se encarga de abrir el fichero train-images.idx3-ubyte
