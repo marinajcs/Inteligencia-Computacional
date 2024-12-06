@@ -45,6 +45,9 @@ El modelo se compila utilizando el optimizador \textit{adam}, la función de pé
 	\label{fig:results-red1}
 \end{figure}
 
+La primera red neuronal, con una arquitectura simple y sin capas ocultas, logró un error de prueba del 7.12\%, con un tiempo de entrenamiento de solo 34.14 segundos.
+
+Este modelo, aunque básico, ofrece una solución rápida para tareas sencillas de clasificación. Sin embargo, su bajo rendimiento en el conjunto de prueba refleja una capacidad limitada para generalizar, posiblemente debido a su simplicidad y la ausencia de técnicas de regularización o capas intermedias.
 
 \section{Red neuronal multicapa}
 
@@ -87,6 +90,9 @@ El entrenamiento se realiza con el método \texttt{fit}, configurado para 10 ép
 	\label{fig:results-red2}
 \end{figure}
 
+La segunda red neuronal introdujo una capa oculta con 256 unidades y activación ReLU, lo que mejoró significativamente su capacidad para aprender características más complejas de los datos.
+
+Esto se tradujo en una mayor precisión y un error de prueba de solo 2.07\%. El tiempo de entrenamiento aumentó, pero la mejora en el rendimiento lo justifica ampliamente. Comparada con la primera red, este modelo demuestra cómo una mayor complejidad puede mejorar la generalización en tareas de clasificación.
 
 \section{Red neuronal convolucional}
 
@@ -107,7 +113,6 @@ El modelo utiliza el optimizador SGD (\textit{Stochastic Gradient Descent}) con 
 Las CNN, como este modelo, son efectivas para la extracción automática de características espaciales y han demostrado gran éxito en tareas de visión computacional, como describen LeCun \parencite{lecun1998gradient} y Krizhevsky \parencite{krizhevsky2012imagenet}.
 
 \subsection{Implementación}
-
 
 El modelo secuencial implementado en la \autoref{fig:model-red3} consta de las siguientes capas:
 \begin{itemize}
@@ -136,6 +141,9 @@ El modelo se compila utilizando el optimizador SGD con una tasa de aprendizaje d
 	\label{fig:results-red3}
 \end{figure}
 
+La tercera red, una CNN con capas convolutivas y de \textit{pooling}, alcanzó un rendimiento aún mejor, con un error de prueba reducido a 0.93\%.
+
+Este modelo sobresale al extraer características espaciales jerárquicas de las imágenes, lo que lo hace especialmente efectivo para tareas relacionadas con visión computacional. Sin embargo, el tiempo de entrenamiento fue considerablemente mayor en relación con los anteriores, lo que refleja la alta demanda computacional de este tipo de arquitecturas.
 
 \section{Deep learning}
 
@@ -160,7 +168,7 @@ Este modelo combina un autoencoder convolucional con una red neuronal supervisad
 
 El código consta de tres partes principales:
 \begin{enumerate}
-	\item \textbf{Definición del autoencoder} (\autoref{fig:model-1-red4}):
+	\item \textbf{Definición del autoencoder}:
 	\begin{itemize}
 		\item Se utiliza \texttt{Input} para definir la forma de entrada (28, 28, 1).
 		\item El codificador tiene dos capas convolutivas (\texttt{Conv2D}) con 32 y 64 filtros, seguidas de capas de \textit{max-pooling} (\texttt{MaxPooling2D}). La activación es \texttt{ReLU} y el \texttt{padding} es \texttt{'same'} para preservar dimensiones.
@@ -175,7 +183,7 @@ El código consta de tres partes principales:
 		\label{fig:model-1-red4}
 	\end{figure}
 	
-	\item \textbf{Entrenamiento del autoencoder} (\autoref{fig:model-2-red4}):
+	\item \textbf{Entrenamiento del autoencoder}:
 	\begin{itemize}
 		\item Se entrena el autoencoder usando \texttt{fit} con los datos de entrenamiento tanto como entrada como salida, durante 10 épocas, con un tamaño de lote de 256 y validación del 20\%.
 		\item Una vez entrenado, el codificador es extraído y utilizado para transformar los datos en representaciones comprimidas.
@@ -188,7 +196,7 @@ El código consta de tres partes principales:
 		\label{fig:model-2-red4}
 	\end{figure}
 	
-	\item \textbf{Red supervisada para clasificación} (\autoref{fig:model-3-red4}):
+	\item \textbf{Red supervisada para clasificación}:
 	\begin{itemize}
 		\item La red neuronal supervisada tiene una capa densa oculta con 128 neuronas y activación \texttt{ReLU}, seguida de una capa de salida con 10 neuronas y activación \texttt{softmax}.
 		\item Se entrena utilizando \texttt{SGD} con tasa de aprendizaje 0.01 y \textit{momentum} de 0.9, minimizando la pérdida \texttt{categorical\_crossentropy}.
@@ -203,7 +211,6 @@ El código consta de tres partes principales:
 	\end{figure}
 \end{enumerate}
 
-
 \subsection{Análisis de resultados}
 
 \begin{figure}[H]
@@ -213,6 +220,7 @@ El código consta de tres partes principales:
 	\label{fig:results-red4}
 \end{figure}
 
+El cuarto modelo, que combina un autoencoder con una red supervisada, logró un error de prueba de 2.10\%. Aunque no alcanzó el rendimiento de la CNN en términos de precisión, este modelo es útil para tareas que requieren una reducción de dimensionalidad previa, como la compresión de datos o la extracción de características relevantes, además requiere menos tiempo que el modelo anterior al utilizar una red neuronal más simple.
 
 
 \section{Red neuronal combinada mejorada}
@@ -237,6 +245,14 @@ Este modelo mejorado combina técnicas avanzadas de deep learning para optimizar
 	\end{itemize}
 \end{itemize}
 
+En la \autoref{fig:explain-callbacks} se muestra el funcionamiento de los tres callbacks anteriores: \textit{ReduceLROnPlateau}, que disminuye la tasa de aprendizaje cuando \textit{val\_loss} deja de mejorar, ayudando a realizar ajustes más precisos; \textit{EarlyStopping}, que detiene el entrenamiento tras varias épocas sin mejora para evitar sobreajuste (aunque no se activa en esta imagen, sí lo hace en la \autoref{fig:results-red5}); y \textit{ModelCheckpoint}, que guarda automáticamente el mejor modelo basado en el menor \textit{val\_loss}, asegurando que el modelo final sea el más óptimo alcanzado.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{imgs/explain-callbacks.JPG}
+	\caption{Ejemplo del funcionamiento de los callbacks}
+	\label{fig:explain-callbacks}
+\end{figure}
 
 \subsection{Implementación}
 
@@ -291,7 +307,6 @@ El código implementa las siguientes etapas para el entrenamiento y evaluación 
 	\end{figure}
 \end{enumerate}
 
-
 \subsection{Análisis de resultados}
 
 \begin{figure}[H]
@@ -300,4 +315,6 @@ El código implementa las siguientes etapas para el entrenamiento y evaluación 
 	\caption{Resultados de la cuarta red neuronal}
 	\label{fig:results-red5}
 \end{figure}
+
+Finalmente, la red mejorada, que incluyó técnicas avanzadas como aumento de datos, \textit{dropout}, y \textit{callbacks}, logró los mejores resultados entre todas las evaluadas. Con un error de prueba de solo 0.38\%, este modelo destaca por su capacidad de generalización y resistencia al sobreajuste. Aunque su tiempo de entrenamiento es elevado, demuestra cómo la integración de estrategias avanzadas puede maximizar el rendimiento, superando incluso a la CNN estándar en precisión y estabilidad.
 
