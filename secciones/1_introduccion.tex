@@ -1,5 +1,5 @@
 \section{Introducción}
-Este se enfoca en
+En esta sección se comentan las herramientas y el entorno de desarrollo utilizado para la práctica, así como algunos detalles acerca de la preparación de los datos.
 
 \subsection{Herramientas y entorno}
 
@@ -8,6 +8,8 @@ Se ha optado por utilizar bibliotecas disponibles públicamente, que implementan
 Esta elección se debe a su acceso gratuito a potentes recursos de computación como GPUs y TPUs, lo que acelera el entrenamiento de modelos complejos. Además, Colab ofrece un entorno preconfigurado y una integración fluida con Google Drive, lo que simplifica el almacenamiento de los conjuntos de datos de las imágenes.
 
 \subsection{Preparación de los datos}
+
+El objetivo es la implementación de redes neuronales para la identificación (o clasificación) correcta de dígitos en el conjunto de imágenes MNIST.
 
 Antes de nada, se han definido cuatro funciones: las dos primeras (\autoref{fig:function-load-imgs}) se encargan de abrir los ficheros \texttt{train-images.idx3-ubyte} y \texttt{t10k-images.idx3-ubyte}, que contiene las imágenes para el entrenamiento y las pruebas respectivamente, mientras que las dos últimas (\autoref{fig:function-load-labels}) sirven para cargar las etiquetas correspondientes a los dos conjuntos de imágenes (\texttt{train-labels.idx1-ubyte} y \texttt{t10k-labels.idx1-ubyte}).
 
