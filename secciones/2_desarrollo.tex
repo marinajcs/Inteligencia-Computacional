@@ -1,4 +1,4 @@
-\section{Red neuronal simple}
+\section{Red neuronal simple (NN-1)}
 
 En primer lugar, se ha implementado una red neuronal simple, compuesta por una capa de entrada y una de salida de tipo softmax.
 
@@ -8,7 +8,7 @@ La red neuronal implementada está basada en un modelo de tipo feedforward, que 
 
 Se inicia con una capa de entrada para convertir las imágenes de entrada de forma (28, 28, 1) en vectores unidimensionales de 784 valores, como recomiendan Goodfellow \parencite{goodfellow2016deep} para garantizar compatibilidad con capas densas.
 
-La capa de salida utiliza una activación \textit{softmax}, que convierte los logits en probabilidades interpretables para clasificación multi-clase mediante la fórmula:
+La capa de salida utiliza una activación \textit{softmax}, que convierte los logits en probabilidades interpretables para clasificación multiclase mediante la fórmula:
 
 \[
 \sigma(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}
@@ -32,7 +32,7 @@ El modelo se compila utilizando el optimizador \textit{adam}, la función de pé
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\textwidth]{imgs/model-red1.JPG}
-	\caption{Modelado de la primera red neuronal simple}
+	\caption{Modelado de la primera red neuronal}
 	\label{fig:model-red1}
 \end{figure}
 
@@ -41,15 +41,15 @@ El modelo se compila utilizando el optimizador \textit{adam}, la función de pé
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\textwidth]{imgs/results-red1.JPG}
-	\caption{Resultados de la primera red neuronal simple}
+	\caption{Resultados de la primera red neuronal}
 	\label{fig:results-red1}
 \end{figure}
 
-La primera red neuronal, con una arquitectura simple y sin capas ocultas, logró un error de prueba del 7.12\%, con un tiempo de entrenamiento de solo 34.14 segundos.
+La primera red neuronal, con una arquitectura simple y sin capas ocultas, logró un error de prueba del 7.39\%, con un tiempo de entrenamiento de solo 30.18 segundos.
 
 Este modelo, aunque básico, ofrece una solución rápida para tareas sencillas de clasificación. Sin embargo, su bajo rendimiento en el conjunto de prueba refleja una capacidad limitada para generalizar, posiblemente debido a su simplicidad y la ausencia de técnicas de regularización o capas intermedias.
 
-\section{Red neuronal multicapa}
+\section{Red neuronal multicapa (NN-2)}
 
 En segundo lugar, se ha optado por una red neuronal con una capa oculta de 256 unidades logísticas y una capa de salida de tipo softmax.
 
@@ -92,9 +92,10 @@ El entrenamiento se realiza con el método \texttt{fit}, configurado para 10 ép
 
 La segunda red neuronal introdujo una capa oculta con 256 unidades y activación ReLU, lo que mejoró significativamente su capacidad para aprender características más complejas de los datos.
 
-Esto se tradujo en una mayor precisión y un error de prueba de solo 2.07\%. El tiempo de entrenamiento aumentó, pero la mejora en el rendimiento lo justifica ampliamente. Comparada con la primera red, este modelo demuestra cómo una mayor complejidad puede mejorar la generalización en tareas de clasificación.
+Esto se tradujo en una mayor precisión y un error de prueba de solo 1.78\%. El tiempo de entrenamiento apenas aumentó con respecto a la anterior y hay una clara mejora en el rendimiento. Comparada con la NN-1, este modelo demuestra cómo una mayor complejidad puede mejorar la generalización en tareas de clasificación.
 
-\section{Red neuronal convolucional}
+\newpage
+\section{Red neuronal convolucional (NN-3)}
 
 A continuación, se ha considerado una red neuronal convolucional entrenada con gradiente descendente estocástico.
 
@@ -141,11 +142,11 @@ El modelo se compila utilizando el optimizador SGD con una tasa de aprendizaje d
 	\label{fig:results-red3}
 \end{figure}
 
-La tercera red, una CNN con capas convolutivas y de \textit{pooling}, alcanzó un rendimiento aún mejor, con un error de prueba reducido a 0.93\%.
+La tercera red, una CNN con capas convolutivas y de \textit{pooling}, alcanzó un rendimiento aún mejor, con un error de prueba reducido a 0.97\%.
 
-Este modelo sobresale al extraer características espaciales jerárquicas de las imágenes, lo que lo hace especialmente efectivo para tareas relacionadas con visión computacional. Sin embargo, el tiempo de entrenamiento fue considerablemente mayor en relación con los anteriores, lo que refleja la alta demanda computacional de este tipo de arquitecturas.
+Este modelo sobresale al extraer características espaciales jerárquicas de las imágenes, lo que lo hace especialmente efectivo para tareas relacionadas con visión computacional. Sin embargo, esto implica un tiempo de entrenamiento mayor en relación con los anteriores, lo que refleja la mayor demanda computacional de este tipo de arquitecturas.
 
-\section{Deep learning}
+\section{Deep learning con autoencoders (NN-4)}
 
 \textit{Deep learning} usando pre-entrenamiento de autoencoders para extraer características de las imágenes y una red neuronal con capa de salida softmax.
 
@@ -220,10 +221,10 @@ El código consta de tres partes principales:
 	\label{fig:results-red4}
 \end{figure}
 
-El cuarto modelo, que combina un autoencoder con una red supervisada, logró un error de prueba de 2.10\%. Aunque no alcanzó el rendimiento de la CNN en términos de precisión, este modelo es útil para tareas que requieren una reducción de dimensionalidad previa, como la compresión de datos o la extracción de características relevantes, además requiere menos tiempo que el modelo anterior al utilizar una red neuronal más simple.
+El cuarto modelo, que combina un autoencoder con una red supervisada, logró un error de prueba de 2.10\%. Aunque no alcanzó el rendimiento de la NN-3 (la CNN) en términos de precisión, este modelo es útil para tareas que requieren una reducción de dimensionalidad previa, como la compresión de datos o la extracción de características relevantes, además requiere menos tiempo que el modelo anterior al utilizar una red neuronal más simple.
 
 
-\section{Red neuronal combinada mejorada}
+\section{Red neuronal convolucional mejorada (NN-5)}
 
 A continuación, se ha intentado combinar algunas de las técnicas anteriores para implementar una red neuronal que se acerque lo máximo posible a una \textit{accuracy} de 99.7\%.
 
@@ -316,5 +317,191 @@ El código implementa las siguientes etapas para el entrenamiento y evaluación 
 	\label{fig:results-red5}
 \end{figure}
 
-Finalmente, la red mejorada, que incluyó técnicas avanzadas como aumento de datos, \textit{dropout}, y \textit{callbacks}, logró los mejores resultados entre todas las evaluadas. Con un error de prueba de solo 0.38\%, este modelo destaca por su capacidad de generalización y resistencia al sobreajuste. Aunque su tiempo de entrenamiento es elevado, demuestra cómo la integración de estrategias avanzadas puede maximizar el rendimiento, superando incluso a la CNN estándar en precisión y estabilidad.
+Esta red mejorada, que incluye técnicas avanzadas como aumento de datos, \textit{dropout}, y \textit{callbacks}, logró los mejores resultados entre todas las evaluadas. Con el mínimo error de prueba alcanzado hasta el momento (solo 0.38\%, pudiendo variar entre 0.38-0.41\% de una ejecución a otra) este modelo destaca por su capacidad de generalización y resistencia al sobreajuste.
+
+Aunque su tiempo de entrenamiento es bastante más elevado en comparación con los anteriores, demuestra cómo la integración de estrategias avanzadas puede maximizar el rendimiento, superando incluso a la NN-3 en precisión y estabilidad.
+
+\newpage
+\section{Red neuronal combinada NN-4+5 (NN-6)}
+
+Dado que no se alcanzó el 0.3\% de error de prueba deseado, se intentó desarrollar una red neuronal que combinara el enfoque de la NN-4 y la NN-5 implementación.
+
+\subsection{Fundamentos teóricos}
+
+Este modelo combina dos componentes clave: un autoencoder convolucional para extracción de características y una red convolucional supervisada para clasificación. Las etapas y técnicas involucradas son:
+
+\begin{itemize}
+	\item \textbf{Autoencoder convolucional}:
+	\begin{itemize}
+		\item El autoencoder tiene un \textit{codificador} que utiliza capas convolutivas (\texttt{Conv2D}) con activación \texttt{ReLU} y capas de \textit{max-pooling} (\texttt{MaxPooling2D}) para reducir dimensionalidad espacial y capturar características relevantes. La representación comprimida se almacena en la variable \textit{encoded}.
+		\item El \textit{decodificador} reconstruye la entrada a partir de la representación comprimida usando capas de \textit{upsampling} (\texttt{UpSampling2D}) y convolutivas, con una capa final que utiliza activación \textit{sigmoid} para producir una salida en el rango [0, 1].
+	\end{itemize}
+	
+	\item \textbf{Red convolucional supervisada}:
+	\begin{itemize}
+		\item Las características comprimidas extraídas por el autoencoder son utilizadas como entrada para la red convolucional supervisada, que incluye:
+		\begin{itemize}
+			\item Capas convolutivas (\texttt{Conv2D}) y de \textit{max-pooling}, que procesan las características comprimidas.
+			\item Capas de \textit{dropout} (\texttt{Dropout}) con tasas del 25\% y 50\% para reducir el sobreajuste.
+			\item Capas densas para integrar las características y realizar la clasificación final mediante una capa con activación \textit{softmax}.
+		\end{itemize}
+	\end{itemize}
+	
+	\item \textbf{Optimización y regularización}:
+	\begin{itemize}
+		\item La red convolucional se optimiza con el algoritmo \textit{adam}, que ajusta dinámicamente la tasa de aprendizaje y combina gradientes adaptativos con momentos para lograr convergencia rápida.
+		\item El uso de \textit{callbacks} como \texttt{EarlyStopping}, \texttt{ReduceLROnPlateau}, y \texttt{ModelCheckpoint} permite mejorar la eficiencia del entrenamiento, evitar sobreajuste y ajustar la tasa de aprendizaje de manera dinámica.
+	\end{itemize}
+\end{itemize}
+
+El enfoque completo aprovecha las capacidades de los autoencoders para extraer representaciones comprimidas útiles y mejora el desempeño del modelo supervisado mediante una mejor inicialización de datos y regularización.
+
+
+\subsection{Implementación}
+
+El modelo implementado sigue los siguientes pasos:
+
+\begin{enumerate}
+	\item \textbf{Creación y entrenamiento del autoencoder}:
+	\begin{itemize}
+		\item Se define un autoencoder con un \textit{codificador} compuesto por dos capas \texttt{Conv2D} (32 y 64 filtros) y dos capas \texttt{MaxPooling2D} para comprimir las características de entrada.
+		\item El \textit{decodificador} utiliza capas \texttt{Conv2D} y \texttt{UpSampling2D} para reconstruir las imágenes originales.
+		\item El modelo se entrena durante 10 épocas, utilizando el optimizador \textit{adam} y la pérdida \texttt{binary\_crossentropy}, con un tamaño de lote de 256 y una validación del 20\%.
+	\end{itemize}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\textwidth]{imgs/model-1-red6.JPG}
+		\caption{Modelado de la sexta red neuronal (pt. 1)}
+		\label{fig:model-1-red6}
+	\end{figure}
+	
+	\item \textbf{Generación de conjuntos de entrenamiento y validación}:
+	\begin{itemize}
+		\item Se utilizan los datos comprimidos generados por el codificador para dividirlos en conjuntos de entrenamiento y validación mediante \texttt{train\_test\_split}.
+		\item Se aplica aumento de datos (\texttt{ImageDataGenerator}) a los datos de entrenamiento mediante rotaciones, desplazamientos y zoom, mientras que los datos de validación no se modifican.
+	\end{itemize}
+	
+	\item \textbf{Creación y entrenamiento del modelo supervisado}:
+	\begin{itemize}
+		\item La red convolucional supervisada incluye dos bloques convolutivos (64 y 128 filtros), seguidos de capas de \textit{max-pooling} y \textit{dropout}.
+		\item Se utiliza una capa densa con 256 neuronas y activación \texttt{ReLU}, seguida de una capa de salida con activación \texttt{softmax}.
+		\item El modelo es compilado usando el optimizador \textit{adam} con tasa de aprendizaje inicial 0.001, y pérdida \texttt{categorical\_crossentropy}.
+	\end{itemize}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\textwidth]{imgs/model-2-red6.JPG}
+		\caption{Modelado de la sexta red neuronal (pt. 2)}
+		\label{fig:model-2-red6}
+	\end{figure}
+	
+	\item \textbf{Configuración de \textit{callbacks} y entrenamiento}:
+	\begin{itemize}
+		\item \texttt{EarlyStopping} detiene el entrenamiento si la métrica de validación no mejora tras 7 épocas consecutivas.
+		\item \texttt{ReduceLROnPlateau} ajusta dinámicamente la tasa de aprendizaje cuando se alcanza un \textit{plateau} en el desempeño.
+		\item \texttt{ModelCheckpoint} guarda el mejor modelo basado en la pérdida de validación.
+		\item El entrenamiento se realiza durante un máximo de 50 épocas, utilizando generadores para los datos de entrenamiento y validación.
+	\end{itemize}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\textwidth]{imgs/model-3-red6.JPG}
+		\caption{Modelado de la sexta red neuronal (pt. 3)}
+		\label{fig:model-3-red6}
+	\end{figure}
+\end{enumerate}
+
+
+\subsection{Análisis de resultados}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{imgs/results-red6.JPG}
+	\caption{Resultados de la sexta red neuronal}
+	\label{fig:results-red6}
+\end{figure}
+
+Aunque logró reducir el error de la NN-4, no mostró una mejora con respecto a la NN-5, es más, los resultados obtenidos eran similares a los de NN-3. Esto, sumado al hecho de que llegó a tardar 2h40, llevó a la conclusión de que este enfoque combinado no era el más adecuado.
+
+\newpage
+\section{Refinamiento de la NN-5 (NN-7)}
+
+Como último intento para reducir el error de prueba, se optó por tratar de mejorar la NN-5 (la CNN mejorada), ya que fue la que mejores resultados obtuvo de las implementadas hasta ahora.
+
+\subsection{Fundamentos teóricos}
+
+Esta red neuronal es una versión mejorada de la arquitectura de la NN-5, donde se han agregado técnicas avanzadas de regularización y normalización para optimizar el rendimiento del modelo. Los aspectos teóricos clave de estas mejoras incluyen:
+
+\begin{itemize}
+	\item \textbf{Batch normalization}:
+	\begin{itemize}
+		\item Se incorpora después de cada capa convolutiva (\texttt{Conv2D}). La normalización por lotes reescala las activaciones para que tengan media 0 y varianza 1 durante el entrenamiento. Esto acelera la convergencia, estabiliza el aprendizaje y reduce la sensibilidad a la inicialización de pesos \parencite{ioffe2015batchnorm}.
+	\end{itemize}
+	
+	\item \textbf{Regularización L2 en la capa densa}:
+	\begin{itemize}
+		\item La regularización L2 penaliza pesos grandes en el modelo, reduciendo el sobreajuste. Esto se implementa en la capa densa con la función de penalización \texttt{tf.keras.regularizers.l2(0.01)}, donde el término de regularización se añade a la función de pérdida \parencite{goodfellow2016deep}.
+	\end{itemize}
+	
+	\item \textbf{Global Average Pooling}:
+	\begin{itemize}
+		\item En lugar de \textit{max-pooling}, la última capa convolutiva utiliza \texttt{GlobalAveragePooling2D}, que reduce cada mapa de características a un único valor promedio. Esto minimiza la cantidad de parámetros en la transición a las capas densas, reduciendo el riesgo de sobreajuste \parencite{lin2013network}.
+	\end{itemize}
+	
+	\item \textbf{Optimización}:
+	\begin{itemize}
+		\item Se utiliza el optimizador \textit{adam} con una tasa de aprendizaje ajustada a 0.0005, lo que permite actualizaciones más precisas en la etapa final del entrenamiento. La pérdida es \texttt{categorical\_crossentropy}, adecuada para tareas de clasificación multiclase.
+	\end{itemize}
+	
+	\item \textbf{Callbacks}:
+	\begin{itemize}
+		\item Se ha hecho un pequeño ajuste para que la paciencia del EarlyStopping sea un poco menor (10 en lugar de 17), en un intento de acelerar el entrenamiento del modelo. 
+	\end{itemize}
+\end{itemize}
+
+\subsection{Implementación}
+
+Esta red neuronal mejora la arquitectura de la NN-5 mediante la adición de nuevas técnicas y cambios clave:
+
+\begin{enumerate}
+	\item \textbf{Capa convolutiva y normalización por lotes}:
+	\begin{itemize}
+		\item Se utilizan tres bloques convolutivos con 64, 128 y 256 filtros, kernel (3, 3), y activación \texttt{ReLU}.
+		\item Después de cada convolución, se añade una capa \texttt{BatchNormalization()} para estabilizar y acelerar el entrenamiento.
+		\item Cada bloque incluye también \texttt{MaxPooling2D} para reducción espacial y \texttt{Dropout} con tasas de 20\%, 30\% y 40\% respectivamente.
+	\end{itemize}
+	
+	\item \textbf{Capa de \textit{Global Average Pooling}}:
+	\begin{itemize}
+		\item En lugar de \textit{flattening} directamente los mapas de características, se utiliza \texttt{GlobalAveragePooling2D()}, que reduce cada mapa de características a un único valor promedio, disminuyendo la dimensionalidad de manera eficiente.
+	\end{itemize}
+	
+	\item \textbf{Capa densa regularizada}:
+	\begin{itemize}
+		\item Una capa densa con 256 neuronas y activación \texttt{ReLU}, que incluye regularización L2 con un coeficiente de 0.01.
+		\item Se añade una capa \texttt{Dropout(0.4)} antes de la capa de salida.
+	\end{itemize}
+	
+	\item \textbf{Capa de salida}:
+	\begin{itemize}
+		\item La capa final es una capa densa con 10 neuronas y activación \textit{softmax} para la clasificación multiclase.
+	\end{itemize}
+	
+	\item \textbf{Compilación y optimización}:
+	\begin{itemize}
+		\item El modelo es compilado con el optimizador \textit{adam}, ajustado con una tasa de aprendizaje de 0.0005, y pérdida \texttt{categorical\_crossentropy}.
+	\end{itemize}
+\end{enumerate}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{imgs/model-red7.JPG}
+	\caption{Modelado de la séptima red neuronal}
+	\label{fig:model-red7}
+\end{figure}
+
+
+
+\subsection{Análisis de resultados}
 
